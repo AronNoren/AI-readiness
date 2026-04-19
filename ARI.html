@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Readiness Index — Swedish Hotel Chains 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F5F2EC;
+  --surface: #FFFFFF;
+  --surface2: #F0EDE6;
+  --ink: #1A1814;
+  --ink2: #5C5850;
+  --ink3: #9A948A;
+  --accent: #1B4332;
+  --accent-light: #D8F3DC;
+  --amber: #92400E;
+  --amber-light: #FEF3C7;
+  --red: #7F1D1D;
+  --red-light: #FEE2E2;
+  --border: rgba(26,24,20,0.10);
+  --border-strong: rgba(26,24,20,0.20);
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --mono: 'DM Mono', monospace;
+  --r: 10px;
+  --r-lg: 16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--ink);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 52px;
+}
+.nav-logo { font-family: var(--serif); font-size: 17px; color: #fff; letter-spacing: -0.01em; }
+.nav-tabs { display: flex; gap: 0; }
+.nav-tab {
+  font-size: 12px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
+  color: rgba(255,255,255,.5); padding: 0 16px; height: 52px;
+  display: flex; align-items: center; cursor: pointer; border: none; background: none;
+  border-bottom: 2px solid transparent; transition: color .15s, border-color .15s;
+}
+.nav-tab:hover { color: rgba(255,255,255,.85); }
+.nav-tab.active { color: #fff; border-bottom-color: #fff; }
+
+/* ── HERO ── */
+.hero {
+  padding: 5rem 2rem 4rem;
+  max-width: 900px; margin: 0 auto;
+  border-bottom: 1px solid var(--border);
+}
+.hero-kicker {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 8px;
+}
+.hero-kicker::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent); }
+.hero h1 {
+  font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 3.8rem);
+  line-height: 1.1; letter-spacing: -0.02em;
+  color: var(--ink); margin-bottom: 1.25rem;
+}
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero-sub { font-size: 16px; color: var(--ink2); max-width: 560px; line-height: 1.7; }
+.hero-stats {
+  display: flex; gap: 2rem; margin-top: 2.5rem; padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+.stat-item { }
+.stat-num { font-family: var(--serif); font-size: 2rem; color: var(--ink); }
+.stat-label { font-size: 12px; color: var(--ink3); margin-top: 2px; }
+
+/* ── LAYOUT ── */
+.main { max-width: 1100px; margin: 0 auto; padding: 0 2rem 4rem; }
+.section { padding: 3rem 0; border-bottom: 1px solid var(--border); }
+.section:last-child { border-bottom: none; }
+.section-title {
+  font-family: var(--serif); font-size: 1.6rem; letter-spacing: -0.01em;
+  margin-bottom: .4rem;
+}
+.section-sub { font-size: 13px; color: var(--ink3); margin-bottom: 2rem; }
+
+/* ── WHY IT MATTERS ── */
+.why-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+.why-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg);
+  padding: 1.25rem; cursor: pointer; transition: border-color .15s, box-shadow .15s;
+  position: relative; overflow: hidden;
+}
+.why-card:hover { border-color: var(--border-strong); }
+.why-card.open { border-color: var(--accent); }
+.why-card-icon {
+  width: 32px; height: 32px; border-radius: 8px; background: var(--surface2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; margin-bottom: 10px;
+}
+.why-card-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.why-card-avg { font-family: var(--mono); font-size: 11px; color: var(--ink3); }
+.why-expand {
+  display: none; margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid var(--border); font-size: 13px; color: var(--ink2); line-height: 1.6;
+}
+.why-card.open .why-expand { display: block; }
+.why-impact {
+  margin-top: 10px; padding: 8px 10px; background: var(--surface2);
+  border-radius: 6px; font-size: 12px; color: var(--ink);
+  border-left: 3px solid var(--accent);
+}
+.why-impact strong { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); margin-bottom: 2px; }
+.why-checklist { margin-top: 10px; display: flex; flex-direction: column; gap: 4px; }
+.check-item {
+  display: flex; gap: 6px; align-items: flex-start; font-size: 12px; color: var(--ink2);
+}
+.check-item::before { content: '→'; color: var(--accent); flex-shrink: 0; margin-top: 1px; font-size: 11px; }
+
+/* ── LEADERBOARD ── */
+.lb-table { width: 100%; border-collapse: collapse; }
+.lb-table thead th {
+  font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink3); text-align: left; padding: 0 8px 10px; white-space: nowrap;
+}
+.lb-row {
+  border-bottom: 1px solid var(--border); cursor: pointer; transition: background .1s;
+}
+.lb-row:hover { background: var(--surface2); }
+.lb-row.selected { background: #f0f7f4; }
+.lb-row td { padding: 12px 8px; vertical-align: middle; }
+.rank-num { font-family: var(--mono); font-size: 13px; color: var(--ink3); width: 28px; }
+.hotel-name { font-size: 14px; font-weight: 600; }
+.hotel-meta { font-size: 11px; color: var(--ink3); margin-top: 1px; }
+.total-score {
+  font-family: var(--serif); font-size: 1.8rem; font-weight: 400;
+  min-width: 48px; text-align: center;
+}
+.score-pill {
+  display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: .04em;
+  padding: 2px 7px; border-radius: 20px; text-transform: uppercase;
+}
+.cat-mini-bars { display: flex; gap: 3px; align-items: flex-end; height: 22px; }
+.cat-bar { width: 8px; border-radius: 2px; transition: opacity .15s; }
+
+/* ── HOTEL DETAIL ── */
+.detail-panel {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg);
+  padding: 1.5rem; margin-top: 1rem; display: none;
+}
+.detail-panel.open { display: block; }
+.detail-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.5rem; gap: 1rem; }
+.detail-title { font-family: var(--serif); font-size: 1.4rem; }
+.detail-url { font-family: var(--mono); font-size: 11px; color: var(--ink3); margin-top: 2px; }
+.detail-score-big { font-family: var(--serif); font-size: 3rem; line-height: 1; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.detail-cat {
+  padding: 10px 12px; border-radius: var(--r);
+  border: 1px solid var(--border); background: var(--bg);
+}
+.detail-cat-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.detail-cat-name { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--ink2); }
+.detail-cat-score { font-family: var(--mono); font-size: 14px; font-weight: 500; }
+.detail-finding { font-size: 12px; color: var(--ink2); line-height: 1.5; margin-bottom: 6px; }
+.detail-action {
+  font-size: 11px; color: var(--accent); background: var(--accent-light);
+  padding: 4px 8px; border-radius: 4px; display: inline-block; margin-top: 2px;
+}
+.progress-bar { height: 4px; background: var(--surface2); border-radius: 2px; overflow: hidden; margin: 6px 0; }
+.progress-fill { height: 100%; border-radius: 2px; }
+.close-btn {
+  font-size: 18px; color: var(--ink3); background: none; border: none; cursor: pointer; padding: 4px; line-height: 1;
+}
+
+/* ── COMPARE ── */
+.compare-selects { display: flex; gap: 12px; margin-bottom: 1.5rem; }
+.compare-selects select {
+  flex: 1; font-size: 13px; font-family: var(--sans);
+  padding: 8px 12px; border: 1px solid var(--border-strong);
+  border-radius: var(--r); background: var(--surface); color: var(--ink); cursor: pointer;
+}
+.compare-header-row { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
+.compare-score-card {
+  flex: 1; padding: 1.25rem; border-radius: var(--r-lg);
+  border: 1px solid var(--border); background: var(--surface); text-align: center;
+}
+.compare-hotel-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.compare-big-score { font-family: var(--serif); font-size: 3rem; line-height: 1; }
+.compare-cat-row { padding: 10px 0; border-bottom: 1px solid var(--border); }
+.compare-cat-label { font-size: 11px; color: var(--ink3); margin-bottom: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+.compare-bars { display: grid; grid-template-columns: 1fr 52px 1fr; gap: 4px; align-items: center; }
+.bar-a, .bar-b { height: 10px; border-radius: 3px; }
+.bar-a { background: var(--accent); margin-left: auto; }
+.bar-b { background: #2563EB; }
+.compare-nums { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12px; }
+
+/* ── GAP ANALYSIS ── */
+.gap-chart-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+.gap-chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 1.25rem; }
+.gap-chart-card h3 { font-size: 13px; font-weight: 600; margin-bottom: 1rem; }
+.opp-item { padding: 10px 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.opp-name { font-size: 13px; font-weight: 500; }
+.opp-cat { font-size: 11px; color: var(--ink3); }
+.opp-score { font-family: var(--mono); font-size: 15px; font-weight: 500; }
+
+/* ── METHODOLOGY ── */
+.method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.method-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 1.25rem; }
+.method-num { font-family: var(--mono); font-size: 11px; color: var(--ink3); margin-bottom: 4px; }
+.method-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.method-desc { font-size: 12px; color: var(--ink2); line-height: 1.6; }
+
+/* ── UTILS ── */
+.pill-good { background: var(--accent-light); color: var(--accent); }
+.pill-mid { background: var(--amber-light); color: var(--amber); }
+.pill-weak { background: var(--red-light); color: var(--red); }
+.c-good { color: var(--accent); }
+.c-mid { color: var(--amber); }
+.c-weak { color: var(--red); }
+
+/* ── TABS ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── RADAR ── */
+.radar-controls { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; }
+.radar-controls select {
+  font-size: 13px; font-family: var(--sans);
+  padding: 8px 12px; border: 1px solid var(--border-strong);
+  border-radius: var(--r); background: var(--surface); color: var(--ink); cursor: pointer;
+}
+.radar-layout { display: grid; grid-template-columns: 340px 1fr; gap: 2rem; align-items: start; }
+.radar-notes { }
+.radar-note-row {
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+  display: grid; grid-template-columns: 130px 1fr 30px; gap: 8px; align-items: start;
+}
+.radar-note-cat { font-size: 11px; color: var(--ink3); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; padding-top: 2px; }
+.radar-note-text { font-size: 12px; color: var(--ink2); line-height: 1.5; }
+.radar-note-score { font-family: var(--mono); font-size: 13px; text-align: right; padding-top: 2px; }
+.radar-action-row {
+  padding: 6px 0 6px 130px; font-size: 11px; margin-top: -4px; margin-bottom: 4px;
+}
+
+@media (max-width: 700px) {
+  .detail-grid { grid-template-columns: 1fr; }
+  .radar-layout { grid-template-columns: 1fr; }
+  .gap-chart-wrap { grid-template-columns: 1fr; }
+  .method-grid { grid-template-columns: 1fr; }
+  nav { padding: 0 1rem; }
+  .hero { padding: 3rem 1rem 2.5rem; }
+  .main { padding: 0 1rem 3rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">ARI — Swedish Hotels</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('overview',this)">Overview</button>
+    <button class="nav-tab" onclick="showPage('scores',this)">Scores</button>
+    <button class="nav-tab" onclick="showPage('compare',this)">Compare</button>
+    <button class="nav-tab" onclick="showPage('gaps',this)">Gaps</button>
+    <button class="nav-tab" onclick="showPage('method',this)">Methodology</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-kicker">AI Readiness Index · April 2026</div>
+  <h1>Are Swedish hotels<br>ready for <em>AI agents?</em></h1>
+  <p class="hero-sub">As AI assistants like ChatGPT, Perplexity, and autonomous booking agents handle more travel decisions, hotel websites built for humans are becoming invisible to machines. We audited Sweden's 10 largest hotel chains across 8 dimensions of AI readiness.</p>
+  <div class="hero-stats">
+    <div class="stat-item"><div class="stat-num">10</div><div class="stat-label">Hotel chains audited</div></div>
+    <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">Scoring dimensions</div></div>
+    <div class="stat-item"><div class="stat-num">57</div><div class="stat-label">Industry avg score</div></div>
+    <div class="stat-item"><div class="stat-num">0</div><div class="stat-label">Chains with llms.txt</div></div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ═══ OVERVIEW ═══ -->
+<div id="overview" class="page active">
+
+  <div class="section">
+    <div class="section-title">Why AI readiness matters now</div>
+    <div class="section-sub">The AI agent era changes who is "browsing" your website — click a category to understand what it means and what to do</div>
+
+    <div class="why-grid" id="whyGrid"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">The ranking at a glance</div>
+    <div class="section-sub">Click any hotel for a full breakdown and improvement playbook</div>
+
+    <table class="lb-table">
+      <thead>
+        <tr>
+          <th style="width:32px">#</th>
+          <th>Chain</th>
+          <th style="text-align:center">Score</th>
+          <th style="display:none" class="hide-sm"></th>
+          <th>Category bars</th>
+        </tr>
+      </thead>
+      <tbody id="lbBody"></tbody>
+    </table>
+
+    <div id="detailPanel" class="detail-panel"></div>
+  </div>
+</div>
+
+<!-- ═══ SCORES ═══ -->
+<div id="scores" class="page">
+  <div class="section">
+    <div class="section-title">Radar deep-dive</div>
+    <div class="section-sub">Select a hotel to see its full scoring profile with specific findings and recommended actions</div>
+    <div class="radar-controls">
+      <select id="radarSelect" onchange="drawRadar()"></select>
+    </div>
+    <div class="radar-layout">
+      <div style="position:relative;width:100%;height:320px"><canvas id="radarChart" role="img" aria-label="Radar chart of AI readiness scores by category"></canvas></div>
+      <div id="radarNotes" class="radar-notes"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ COMPARE ═══ -->
+<div id="compare" class="page">
+  <div class="section">
+    <div class="section-title">Side-by-side comparison</div>
+    <div class="section-sub">Compare any two hotel chains across all 8 dimensions</div>
+    <div class="compare-selects">
+      <select id="cmpA" onchange="renderCompare()"></select>
+      <select id="cmpB" onchange="renderCompare()"></select>
+    </div>
+    <div id="compareBody"></div>
+  </div>
+</div>
+
+<!-- ═══ GAPS ═══ -->
+<div id="gaps" class="page">
+  <div class="section">
+    <div class="section-title">Gap analysis</div>
+    <div class="section-sub">Where the Swedish hotel industry is falling behind — and what to fix first</div>
+    <div id="gapsBody"></div>
+  </div>
+</div>
+
+<!-- ═══ METHODOLOGY ═══ -->
+<div id="method" class="page">
+  <div class="section">
+    <div class="section-title">Methodology</div>
+    <div class="section-sub">How scores were calculated — research conducted April 2026</div>
+    <p style="font-size:14px;color:var(--ink2);max-width:640px;line-height:1.7;margin-bottom:2rem">Each hotel chain was evaluated by direct website inspection, web search, and structured data signal analysis. Scores are 0–100 per category; the final AI Readiness Index is the unweighted arithmetic mean. Research was conducted in April 2026 on live sites.</p>
+    <div class="method-grid" id="methodGrid"></div>
+    <div style="margin-top:2rem;padding:1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg)">
+      <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);margin-bottom:8px">Score bands</div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:6px"><span class="score-pill pill-good">70–100</span><span style="font-size:13px;color:var(--ink2)">Good readiness</span></div>
+        <div style="display:flex;align-items:center;gap:6px"><span class="score-pill pill-mid">55–69</span><span style="font-size:13px;color:var(--ink2)">Moderate gaps</span></div>
+        <div style="display:flex;align-items:center;gap:6px"><span class="score-pill pill-weak">0–54</span><span style="font-size:13px;color:var(--ink2)">Significant work needed</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const CATS = [
+  'Crawlability & structure',
+  'AI engine optimisation',
+  'Information completeness',
+  'Real-time data access',
+  'Machine-readable data',
+  'Booking automation',
+  'API / integration',
+  'Multilingual & clarity'
+];
+
+const CAT_ICONS = ['🗺','✨','📋','📡','🔢','🤖','🔌','🌐'];
+
+const CAT_WHY = [
+  {
+    why: "AI crawlers like GPTBot and PerplexityBot discover your website the same way Google does — via robots.txt and sitemaps. If these files block AI crawlers or provide no guidance, your website effectively doesn't exist for AI-powered search and recommendation engines.",
+    impact: "A hotel with a well-configured robots.txt that explicitly allows AI crawlers gets indexed by ChatGPT, Perplexity, and Google AI Overviews. A hotel that blocks them becomes invisible in AI-generated travel recommendations.",
+    actions: ["Add explicit allow rules for GPTBot, PerplexityBot, ClaudeBot in robots.txt","Ensure XML sitemap is current and linked from robots.txt","Use semantic HTML5 elements (header, main, article) throughout","Add canonical tags to prevent duplicate content confusion"]
+  },
+  {
+    why: "Just as SEO optimises for search engines, AEO (AI Engine Optimisation) optimises for large language models. The llms.txt standard lets you publish a concise, machine-readable summary of your brand, services, and key facts — so AI assistants can cite you accurately without guessing.",
+    impact: "When a traveller asks ChatGPT 'What is the best hotel chain in Stockholm for business travel?', hotels with clear entity definitions and llms.txt are dramatically more likely to be named — and named correctly — than those without.",
+    actions: ["Create an /llms.txt file summarising your brand, properties, and key USPs","Implement OpenGraph and Twitter Card meta tags on all pages","Add FAQ schema markup (FAQPage JSON-LD) to your key landing pages","Define your brand as a named entity with consistent NAP across all pages"]
+  },
+  {
+    why: "AI agents answering travel questions pull facts from your website. If pet policy, parking, accessibility options, dining hours, or check-in times aren't clearly written in plain text, the AI either gets them wrong or says 'I don't know' — sending the user to a competitor.",
+    impact: "A traveller asks their AI assistant 'Can I bring my dog to a Scandic hotel in Stockholm?' If the answer isn't findable in plain text, the AI defaults to Booking.com or a competitor site that does have the information clearly stated.",
+    actions: ["Publish a clear pet policy page with size limits, fees, and advance notice requirements","List all amenities in text (not just icons) per property","Include check-in/out times, parking details, and accessibility info on every hotel page","Add a comprehensive FAQ section covering the 20 most common guest questions"]
+  },
+  {
+    why: "AI agents increasingly need live data, not static content. If an agent can't find real-time pricing and availability, it cannot make a direct booking recommendation — it just sends users to Booking.com instead, where you pay 15–20% commission.",
+    impact: "An AI travel agent helping plan a trip in June needs to check prices for specific dates. If your site only shows 'from €89' rather than live availability, the agent routes to an OTA that does show real-time data — costing you the direct booking and the margin.",
+    actions: ["Ensure your booking engine exposes live availability in the page DOM (not just behind a widget)","Add pricing transparency — show date-specific rates without requiring login","Implement a public rate calendar or availability feed","Use structured data (schema.org LodgingBusiness) to mark up base pricing"]
+  },
+  {
+    why: "JSON-LD and Schema.org markup are machine-readable labels embedded in your HTML that tell AI systems exactly what each piece of content means. Without them, AI must guess — and often guesses wrong. A hotel schema block can encode room types, pet policy, pricing, amenities, and check-in policy in a format any AI can read reliably.",
+    impact: "Google's research shows pages with valid Hotel structured data are 2.3× more likely to appear in AI Overviews. Marriott's direct Google AI booking integration only works because they push machine-readable structured data feeds — hotels without schema markup are ineligible.",
+    actions: ["Add Schema.org Hotel JSON-LD to every property page","Include HotelRoom markup with room type names, capacity, and pricing","Mark up amenities using LodgingBusiness amenityFeature properties","Add Review schema to aggregate guest ratings","Validate with Google's Rich Results Test tool"]
+  },
+  {
+    why: "The end goal of AI agent readiness is autonomous booking — an AI assistant that can research, compare, and complete a hotel reservation on behalf of a user without human intervention. CAPTCHA, login walls, and inaccessible booking forms all block this.",
+    impact: "OpenAI, Anthropic, and Google are all racing to build agents that can complete travel bookings end-to-end. Hotels whose booking flows can be navigated by an AI agent will receive direct bookings from these systems. Hotels with CAPTCHA or opaque JS forms will be skipped in favour of OTAs.",
+    actions: ["Remove CAPTCHA from the initial availability search flow","Ensure booking forms use standard HTML inputs (not canvas-based widgets)","Make the booking engine accessible (WCAG 2.1 AA) — accessibility and AI agent compatibility overlap significantly","Offer a 'guest checkout' path that doesn't require account creation","Test your booking flow with automated browser tools"]
+  },
+  {
+    why: "A public API is the highest level of AI readiness — it lets AI agents query your availability, pricing, and policies programmatically in real time. Marriott's direct Google AI integration works because Marriott has API-level connectivity. Without this, you're dependent on OTA middlemen.",
+    impact: "When ChatGPT Commerce and similar platforms become mainstream, hotels with public APIs will receive direct bookings from AI agents. Hotels without APIs will only be bookable via Booking.com or Expedia — paying 15–20% commission every time. The AI era makes 'if it isn't an API, it doesn't exist' literally true.",
+    actions: ["Evaluate a SiteMinder Direct Booking API or similar channel manager with API exposure","Publish rate/availability feeds in open formats (iCal, OTA XML, or REST JSON)","Document API endpoints for third-party developers","Consider joining the OpenTravel Alliance or similar standards bodies","Even a basic availability webhook is a meaningful first step"]
+  },
+  {
+    why: "AI assistants serve users in many languages and contexts. Ambiguous content, image-only information, or Swedish-only pages mean an AI agent working for an English-speaking traveller simply can't extract the information it needs. Clear, direct prose also makes LLM parsing more accurate.",
+    impact: "An international traveller's AI assistant asking about conference facilities at a Swedish hotel retrieves a page that's 80% Swedish text with key details in an image. The AI returns 'I couldn't find details' — and suggests a competitor hotel that publishes clear English content.",
+    actions: ["Ensure all key policy and amenity pages are available in English","Avoid putting critical information in images, PDFs, or graphics only","Write in short, direct sentences — avoid marketing fluff that obscures facts","Use structured headings (H1, H2, H3) to give AI clear content hierarchy","Add hreflang tags for multilingual pages"]
+  }
+];
+
+const HOTELS = [
+  {
+    name:'Marriott / Bonvoy', url:'marriott.com', size:'International chain',
+    scores:[72,68,80,78,74,70,78,82],
+    notes:['Has sitemap, robots.txt, partial AI-crawler rules','No llms.txt; strong OpenGraph; minimal FAQ schema','Amenities, dining, accessibility, pet policy all clearly stated','Live pricing & availability calendar fully functional','JSON-LD present (Hotel/LodgingBusiness); partial room-level markup','Full online booking incl. multi-room; some JS friction','Amadeus direct API launched 2026; developer documentation exists','Full English, Swedish, 15+ languages; clear unambiguous copy'],
+    actions:['Add llms.txt to root domain — highest-impact quick win','Extend JSON-LD to include HotelRoom with room-type pricing','Add explicit GPTBot/PerplexityBot allow rules to robots.txt','Implement FAQ schema on top 5 landing pages','Test full booking flow with headless browser automation']
+  },
+  {
+    name:'Scandic Hotels', url:'scandichotels.com', size:'Nordic market leader',
+    scores:[70,52,78,72,58,68,55,76],
+    notes:['Good sitemap; robots.txt present; no AI-agent directives','No llms.txt; basic meta tags; no FAQ schema found','Detailed amenities, per-hotel pet policy, check-in/out, 100-point accessibility standard','Live availability calendar; dynamic pricing shown; no public rate feed','Limited JSON-LD; no HotelRoom schema; minimal structured markup','Booking functional; reCAPTCHA at checkout; mobile app available','No public API; OTA distribution only; no developer documentation','Swedish & English throughout; some JS-rendered text blocks'],
+    actions:['Create /llms.txt with chain summary and property list — takes 1 day','Add Schema.org Hotel + HotelRoom JSON-LD to every property page','Remove or move reCAPTCHA to post-booking confirmation step','Publish availability/pricing feed for direct API integrations','Add FAQ schema to pet-policy and accessibility pages — quick SEO+AEO win']
+  },
+  {
+    name:'Radisson / Blu', url:'radissonhotels.com', size:'International chain',
+    scores:[68,55,76,74,65,66,72,80],
+    notes:['Sitemap present; robots.txt configured; good semantic HTML','No llms.txt; OpenGraph tags present; some FAQ-style pages','Good amenity detail; pet policy stated; accessibility info available','Live availability & pricing; Amadeus real-time feed integration','Some JSON-LD (LodgingBusiness); partial room-type markup','Booking flow smooth; some reCAPTCHA; loyalty-gate on best rates','Amadeus direct API (2026); channel manager integrations documented','Multilingual incl. Swedish; clear structured content'],
+    actions:['Add llms.txt file — already have good content to summarise','Extend JSON-LD to cover HotelRoom and amenity features','Expose best-rate pricing without requiring loyalty login','Add FAQ schema to top-traffic landing pages','Document public API endpoints for third-party AI integrations']
+  },
+  {
+    name:'Strawberry', url:'strawberryhotels.com', size:'Nordic #2 chain',
+    scores:[62,44,72,65,45,62,42,70],
+    notes:['Sitemap exists; robots.txt present; no AI crawl guidance','No llms.txt; no FAQ schema; poor entity definition','Pet policy page exists (advance notice required); amenity info moderate','Booking engine shows live prices; no public data feed','No JSON-LD found; relies on human-readable pages only','Booking possible; reCAPTCHA on login; app with mobile keys','No public API; no developer docs; OTA-only distribution','Swedish & English; some content unclear for independent hotel variations'],
+    actions:['Implement Schema.org Hotel JSON-LD on all 60+ Swedish property pages — highest priority','Create /llms.txt explaining brand family (Comfort, Clarion, Quality, Home Hotels)','Clarify independent hotel pet/policy variations — create a master policy page','Remove CAPTCHA from availability search (keep on checkout if needed)','Publish a structured amenity list in text format per property (not icons only)']
+  },
+  {
+    name:'Elite Hotels', url:'elite.se', size:'Swedish boutique chain',
+    scores:[60,42,70,62,40,58,38,68],
+    notes:['Sitemap present; basic robots.txt; no AI-specific config','No llms.txt; limited meta tags; no structured FAQ or entity markup','Pet policy published (SEK 300/night, advance booking); moderate amenity detail','Availability shown; no public rate transparency; per-hotel pricing only','No JSON-LD or structured data detected on property pages','Online booking available; some hotels redirect to third-party engine','No public API; no developer portal; relies on Booking.com/Expedia','Good Swedish; English available; some pages Swedish-only'],
+    actions:['Add JSON-LD Hotel schema to every property page — currently zero coverage','Create /llms.txt with brand story and property list','Standardise pet policy across all properties and publish clearly in English','Ensure all property pages have English versions','Explore SiteMinder or similar for API-accessible distribution feeds']
+  },
+  {
+    name:'Best Western Sweden', url:'bestwestern.se', size:'International franchise',
+    scores:[65,50,68,64,55,60,50,72],
+    notes:['Corporate sitemap; individual hotel pages well-structured','No llms.txt; some review schema; basic OpenGraph','Amenities listed per property; pet policy inconsistent','Availability calendar present; pricing live; no API feed','Review schema on some pages; limited HotelRoom markup','Booking flow standard; no major CAPTCHA blockers; BWH loyalty integration','BWH global has some channel manager connectivity; no public-facing API','Swedish and English; clear copy; international brand consistency helps'],
+    actions:['Leverage BWH global structured data implementation — push to Swedish properties','Add llms.txt at Swedish subdomain level','Standardise pet policy across Swedish properties with clear public statement','Extend existing review schema to include HotelRoom and amenity markup','Request API documentation from BWH corporate for local integration']
+  },
+  {
+    name:'First Hotels', url:'firsthotels.com', size:'Nordic boutique collection',
+    scores:[55,40,65,58,35,55,32,65],
+    notes:['Basic sitemap; minimal robots.txt; no AI directives','No llms.txt; minimal meta structure; no entity or FAQ schema','Moderate amenity info; pet policy requires per-hotel inquiry','Live booking engine; availability shown; pricing not always transparent','No structured data detected; plain HTML content only','Booking possible but friction; no app; loyalty perks require login','No public API; no developer docs; fully OTA-reliant','Swedish & English; reasonably clear copy'],
+    actions:['Add /llms.txt — easy first step, takes one afternoon','Implement Hotel JSON-LD on every property page','Publish a clear pet policy per property (or chain-wide page)','Make pricing visible before requiring login or loyalty membership','Consider Booking.com Connectivity API as low-cost first API step']
+  },
+  {
+    name:'ProfilHotels / Ligula', url:'profilhotels.com', size:'Swedish boutique group',
+    scores:[50,38,62,55,32,50,28,62],
+    notes:['Basic sitemap; minimal robots.txt; no AI support','No llms.txt; minimal meta tags; no structured FAQ','Dog-friendly policy marketed; amenity info moderate; some thin pages','Availability via ligula.se engine; limited pricing detail shown','No JSON-LD or structured data on property pages','Booking works but interface dated; no app or mobile key support','No API; no developer docs; limited distribution infrastructure','Swedish primary; English available but secondary'],
+    actions:['Implement Schema.org Hotel JSON-LD across all properties — zero coverage today','Create /llms.txt explaining the Ligula group and ProfilHotels brand','Build an English-first content layer for all key policy pages','Add pricing transparency to the ligula.se booking engine','Invest in platform modernisation — current tech stack limits all AI readiness improvements']
+  },
+  {
+    name:'Good Morning Hotels', url:'goodmorninghotels.se', size:'Budget chain (Ligula)',
+    scores:[45,32,55,50,28,48,22,58],
+    notes:['Minimal sitemap; basic robots.txt; no AI crawler config','No llms.txt; no structured markup; minimal meta tags','Limited amenity detail; pet policy unclear; thin content pages','Basic availability via ligula.se; minimal pricing shown','No structured data; content is text blocks with no markup','Booking works; very basic flow; no loyalty program or app','No API, no integrations; very limited digital infrastructure','Swedish only on many pages; limited English content'],
+    actions:['Add full English content layer — currently biggest barrier for international AI agents','Implement Hotel JSON-LD on all 13 Swedish properties — minimum viable AI readiness','Create /llms.txt summarising the budget hotel proposition','Add a clear amenities and pet policy page per property','Leverage Ligula group tech investment to upgrade shared booking platform']
+  },
+  {
+    name:'B&B Hotels Sweden', url:'hotel-bb.com', size:'Budget international chain',
+    scores:[58,42,60,56,38,56,40,64],
+    notes:['Corporate sitemap; reasonable robots.txt; international infra helps','No llms.txt; basic OpenGraph; no FAQ schema','Basic amenity info; pets generally not allowed; pricing clear','Live availability and dynamic pricing visible','Some basic structured data from international corporate platform','Smooth booking flow; no major CAPTCHA blockers; simple loyalty','French parent has some API connectivity; limited public documentation','French/English primary; Swedish secondary; some translation gaps'],
+    actions:['Push for llms.txt at chain level from French headquarters','Improve Swedish-language content quality across all properties','Extend corporate structured data implementation to Swedish properties','Add FAQ schema to Swedish landing pages','Request public API documentation from B&B Hotels corporate tech team']
+  }
+];
+
+HOTELS.forEach(h => { h.total = Math.round(h.scores.reduce((a,b)=>a+b)/h.scores.length); });
+HOTELS.sort((a,b)=>b.total-a.total);
+
+function sc(s){ return s>=70?'good':s>=55?'mid':'weak'; }
+function scColor(s){ return s>=70?'#1B4332':s>=55?'#92400E':'#7F1D1D'; }
+function barColor(s){ return s>=70?'#2D6A4F':s>=55?'#D97706':'#DC2626'; }
+
+// ── BUILD WHY GRID ──
+function buildWhy(){
+  const el = document.getElementById('whyGrid');
+  const avgs = CATS.map((_,i)=>Math.round(HOTELS.reduce((s,h)=>s+h.scores[i],0)/HOTELS.length));
+  el.innerHTML = CATS.map((c,i)=>{
+    const w = CAT_WHY[i];
+    return `<div class="why-card" onclick="toggleWhy(this)">
+      <div class="why-card-icon">${CAT_ICONS[i]}</div>
+      <div class="why-card-title">${c}</div>
+      <div class="why-card-avg">Industry avg: <strong class="c-${sc(avgs[i])}">${avgs[i]}/100</strong></div>
+      <div class="why-expand">
+        <p style="margin-bottom:10px">${w.why}</p>
+        <div class="why-impact"><strong>Real-world impact</strong>${w.impact}</div>
+        <div class="why-checklist">${w.actions.map(a=>`<div class="check-item">${a}</div>`).join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleWhy(el){ el.classList.toggle('open'); }
+
+// ── BUILD LEADERBOARD ──
+function buildLeaderboard(){
+  const tbody = document.getElementById('lbBody');
+  tbody.innerHTML = HOTELS.map((h,i)=>{
+    const bars = h.scores.map((s,ci)=>`<div class="cat-bar" title="${CATS[ci]}: ${s}" style="height:${Math.round(s*22/100)}px;background:${barColor(s)}"></div>`).join('');
+    return `<tr class="lb-row" onclick="toggleDetail(${i})">
+      <td class="rank-num">${i+1}</td>
+      <td><div class="hotel-name">${h.name}</div><div class="hotel-meta">${h.url}</div></td>
+      <td style="text-align:center">
+        <div class="total-score c-${sc(h.total)}">${h.total}</div>
+        <span class="score-pill pill-${sc(h.total)}">${h.total>=70?'Good':h.total>=55?'Moderate':'Weak'}</span>
+      </td>
+      <td><div class="cat-mini-bars">${bars}</div></td>
+    </tr>
+    <tr id="detRow${i}" style="display:none"><td colspan="4" style="padding:0 0 8px 40px">
+      <div id="detPan${i}" class="detail-panel"></div>
+    </td></tr>`;
+  }).join('');
+}
+
+let openDetail = -1;
+function toggleDetail(i){
+  if(openDetail===i){ closeAllDetails(); return; }
+  closeAllDetails();
+  openDetail=i;
+  document.getElementById('detRow'+i).style.display='';
+  const pan = document.getElementById('detPan'+i);
+  pan.classList.add('open');
+  const h = HOTELS[i];
+  pan.innerHTML = `<div class="detail-header">
+    <div>
+      <div class="detail-title">${h.name}</div>
+      <div class="detail-url">${h.url} · ${h.size}</div>
+    </div>
+    <div style="text-align:right">
+      <div class="detail-score-big c-${sc(h.total)}">${h.total}<span style="font-size:1rem;color:var(--ink3)">/100</span></div>
+      <span class="score-pill pill-${sc(h.total)}">${h.total>=70?'Good AI readiness':h.total>=55?'Moderate gaps':'Significant gaps'}</span>
+    </div>
+  </div>
+  <div class="detail-grid">
+    ${CATS.map((c,ci)=>`<div class="detail-cat">
+      <div class="detail-cat-header">
+        <div class="detail-cat-name">${c}</div>
+        <div class="detail-cat-score" style="color:${scColor(h.scores[ci])}">${h.scores[ci]}</div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${h.scores[ci]}%;background:${barColor(h.scores[ci])}"></div></div>
+      <div class="detail-finding">${h.notes[ci]}</div>
+    </div>`).join('')}
+  </div>
+  <div style="margin-top:1.25rem;padding:1rem;background:var(--bg);border-radius:var(--r);border:1px solid var(--border)">
+    <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);margin-bottom:10px">Improvement playbook — top priorities</div>
+    ${h.actions.map((a,ai)=>`<div style="display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--border)">
+      <div style="font-family:var(--mono);font-size:11px;color:var(--ink3);flex-shrink:0;margin-top:2px">${String(ai+1).padStart(2,'0')}</div>
+      <div style="font-size:13px;color:var(--ink)">${a}</div>
+    </div>`).join('')}
+  </div>`;
+  document.getElementById('detRow'+i).scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function closeAllDetails(){
+  HOTELS.forEach((_,i)=>{
+    const row=document.getElementById('detRow'+i);
+    if(row) row.style.display='none';
+    const pan=document.getElementById('detPan'+i);
+    if(pan) pan.classList.remove('open');
+  });
+  openDetail=-1;
+}
+
+// ── RADAR ──
+function buildRadarPage(){
+  const sel=document.getElementById('radarSelect');
+  sel.innerHTML=HOTELS.map((h,i)=>`<option value="${i}">${h.name} (${h.total})</option>`).join('');
+  drawRadar();
+}
+
+let radarChart=null;
+function drawRadar(){
+  const i=parseInt(document.getElementById('radarSelect').value)||0;
+  const h=HOTELS[i];
+  if(radarChart) radarChart.destroy();
+  radarChart=new Chart(document.getElementById('radarChart'),{
+    type:'radar',
+    data:{
+      labels:CATS.map(c=>c.length>16?c.slice(0,14)+'…':c),
+      datasets:[{
+        label:h.name, data:h.scores,
+        backgroundColor:'rgba(27,67,50,0.12)',
+        borderColor:'#1B4332', borderWidth:2,
+        pointBackgroundColor:'#1B4332', pointRadius:4
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{r:{min:0,max:100,ticks:{stepSize:25,font:{size:9}},
+        grid:{color:'rgba(0,0,0,0.08)'},pointLabels:{font:{size:10}}}}
+    }
+  });
+  document.getElementById('radarNotes').innerHTML=CATS.map((c,ci)=>`
+    <div class="radar-note-row">
+      <div class="radar-note-cat">${c}</div>
+      <div>
+        <div class="radar-note-text">${h.notes[ci]}</div>
+        <div style="font-size:11px;color:var(--accent);margin-top:3px">→ ${h.actions[ci<h.actions.length?ci:h.actions.length-1]}</div>
+      </div>
+      <div class="radar-note-score" style="color:${scColor(h.scores[ci])}">${h.scores[ci]}</div>
+    </div>`).join('');
+}
+
+// ── COMPARE ──
+function buildComparePage(){
+  ['cmpA','cmpB'].forEach((id,k)=>{
+    document.getElementById(id).innerHTML=HOTELS.map((h,i)=>`<option value="${i}" ${i===k?'selected':''}>${h.name}</option>`).join('');
+  });
+  renderCompare();
+}
+
+function renderCompare(){
+  const ia=parseInt(document.getElementById('cmpA').value)||0;
+  const ib=parseInt(document.getElementById('cmpB').value)||1;
+  const a=HOTELS[ia],b=HOTELS[ib];
+  let html=`<div class="compare-header-row">
+    <div class="compare-score-card" style="border-color:${scColor(a.total)}22">
+      <div class="compare-hotel-name">${a.name}</div>
+      <div class="compare-big-score c-${sc(a.total)}">${a.total}</div>
+      <span class="score-pill pill-${sc(a.total)}">${a.total>=70?'Good':a.total>=55?'Moderate':'Weak'}</span>
+    </div>
+    <div class="compare-score-card" style="border-color:${scColor(b.total)}22">
+      <div class="compare-hotel-name">${b.name}</div>
+      <div class="compare-big-score c-${sc(b.total)}">${b.total}</div>
+      <span class="score-pill pill-${sc(b.total)}">${b.total>=70?'Good':b.total>=55?'Moderate':'Weak'}</span>
+    </div>
+  </div>`;
+  CATS.forEach((c,i)=>{
+    const sa=a.scores[i],sb=b.scores[i];
+    const winner=sa>sb?'a':sb>sa?'b':'tie';
+    html+=`<div class="compare-cat-row">
+      <div class="compare-cat-label">${c}</div>
+      <div class="compare-bars">
+        <div style="display:flex;justify-content:flex-end">
+          <div class="bar-a" style="width:${sa}%;max-width:100%;background:${winner==='a'?'#1B4332':'#d1d5db'};opacity:${winner==='a'?1:.5}"></div>
+        </div>
+        <div class="compare-nums"><span style="color:${winner==='a'?scColor(sa):'var(--ink3)'}">${sa}</span><span style="color:${winner==='b'?scColor(sb):'var(--ink3)'}">${sb}</span></div>
+        <div class="bar-b" style="width:${sb}%;max-width:100%;background:${winner==='b'?'#2563EB':'#d1d5db'};opacity:${winner==='b'?1:.5}"></div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('compareBody').innerHTML=html;
+}
+
+// ── GAPS ──
+function buildGaps(){
+  const avgs=CATS.map((_,i)=>Math.round(HOTELS.reduce((s,h)=>s+h.scores[i],0)/HOTELS.length));
+  const sorted=[...avgs.map((v,i)=>({v,i}))].sort((a,b)=>a.v-b.v);
+  let html=`<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.25rem;margin-bottom:1.5rem">
+    <div style="font-size:13px;font-weight:600;margin-bottom:1rem">Industry average by category</div>`;
+  avgs.forEach((v,i)=>{
+    html+=`<div style="display:grid;grid-template-columns:170px 1fr 36px;gap:8px;align-items:center;padding:5px 0">
+      <div style="font-size:12px;color:var(--ink2)">${CATS[i]}</div>
+      <div style="height:10px;background:var(--surface2);border-radius:4px;overflow:hidden"><div style="height:100%;width:${v}%;background:${barColor(v)};border-radius:4px"></div></div>
+      <div style="font-family:var(--mono);font-size:12px;color:${scColor(v)};text-align:right">${v}</div>
+    </div>`;
+  });
+  html+=`</div>`;
+  html+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.25rem">
+    <div style="font-size:13px;font-weight:600;margin-bottom:1rem">Weakest categories — where to focus industry effort</div>`;
+  sorted.slice(0,4).forEach(({v,i})=>{
+    html+=`<div class="opp-item">
+      <div><div class="opp-name">${CATS[i]}</div>
+      <div class="opp-cat">${CAT_WHY[i].actions[0]}</div></div>
+      <div class="opp-score c-${sc(v)}">${v}</div>
+    </div>`;
+  });
+  html+=`</div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.25rem">
+    <div style="font-size:13px;font-weight:600;margin-bottom:1rem">Hotels with biggest improvement potential</div>`;
+  const opps=HOTELS.map(h=>({name:h.name,score:h.total,gap:CATS.reduce((b,c,i)=>h.scores[i]<b.val?{cat:c,val:h.scores[i]}:b,{cat:'',val:101})}));
+  opps.sort((a,b)=>a.score-b.score).slice(0,5).forEach(o=>{
+    html+=`<div class="opp-item">
+      <div><div class="opp-name">${o.name}</div><div class="opp-cat">Weakest area: ${o.gap.cat}</div></div>
+      <div class="opp-score c-${sc(o.score)}">${o.score}</div>
+    </div>`;
+  });
+  html+=`</div></div>`;
+  html+=`<div style="margin-top:1.5rem;background:var(--accent);border-radius:var(--r-lg);padding:1.5rem;color:white">
+    <div style="font-family:var(--serif);font-size:1.3rem;margin-bottom:.75rem">The single most important action for every Swedish hotel chain</div>
+    <p style="font-size:14px;opacity:.85;line-height:1.7;margin-bottom:1rem">Every hotel in this audit scores 0 on one critical metric: <strong>llms.txt</strong>. Creating this file takes one afternoon and immediately makes your brand findable and citable by every major AI assistant. It's the lowest-effort, highest-impact first step.</p>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+      <div style="background:rgba(255,255,255,.12);border-radius:8px;padding:8px 14px;font-size:12px">
+        <strong style="display:block;opacity:.6;font-size:10px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px">Step 1</strong>
+        Create /llms.txt with brand summary
+      </div>
+      <div style="background:rgba(255,255,255,.12);border-radius:8px;padding:8px 14px;font-size:12px">
+        <strong style="display:block;opacity:.6;font-size:10px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px">Step 2</strong>
+        Add Hotel JSON-LD to property pages
+      </div>
+      <div style="background:rgba(255,255,255,.12);border-radius:8px;padding:8px 14px;font-size:12px">
+        <strong style="display:block;opacity:.6;font-size:10px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px">Step 3</strong>
+        Remove CAPTCHA from booking search
+      </div>
+      <div style="background:rgba(255,255,255,.12);border-radius:8px;padding:8px 14px;font-size:12px">
+        <strong style="display:block;opacity:.6;font-size:10px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px">Step 4</strong>
+        Publish availability API or feed
+      </div>
+    </div>
+  </div>`;
+  document.getElementById('gapsBody').innerHTML=html;
+}
+
+// ── METHODOLOGY ──
+function buildMethod(){
+  document.getElementById('methodGrid').innerHTML=CATS.map((c,i)=>`
+    <div class="method-card">
+      <div class="method-num">${String(i+1).padStart(2,'0')}</div>
+      <div class="method-title">${CAT_ICONS[i]} ${c}</div>
+      <div class="method-desc">${CAT_WHY[i].actions.slice(0,2).map(a=>'→ '+a).join('<br>')}</div>
+    </div>`).join('');
+}
+
+// ── TABS ──
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── INIT ──
+buildWhy();
+buildLeaderboard();
+buildRadarPage();
+buildComparePage();
+buildGaps();
+buildMethod();
+</script>
+</body>
+</html>
